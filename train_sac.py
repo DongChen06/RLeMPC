@@ -26,7 +26,7 @@ def run(args):
 
     # Create environments.
     # parameter
-    rho_c = 0.01
+    rho_c = 0
     env = vehEnv(T=20, rho=rho_c)
     test_env = vehEnv(T=20, rho=rho_c)
 

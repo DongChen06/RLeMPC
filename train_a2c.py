@@ -76,7 +76,7 @@ def main():
 
     # Create a SummaryWriter object by TensorBoard
     if args.tensorboard and args.load is None:
-        dir_name = 'runs/' + '/' \
+        dir_name = 'runs' + '/' \
                            + args.algo \
                            + '_rho_' + str(rho_c) \
                            + '_t_' + datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")

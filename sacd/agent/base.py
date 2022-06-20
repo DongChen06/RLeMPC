@@ -9,7 +9,7 @@ from ..utils import update_params, RunningMeanStats
 
 import csv
 import matplotlib.pyplot as plt
-
+from scipy.io import savemat
 
 def smooth(x, timestamps=2):
     # last 100
@@ -263,6 +263,18 @@ class BaseAgent(ABC):
 
         max_step = len(rl)
         eval_error = np.array(rl[:max_step]) - 4 * np.sin(2 * np.pi / 50 * np.array(x[:max_step]))
+
+        save_mat = {
+            'act': act,
+            'x': x,
+            'rl': rl,
+            'gt': gt,
+            'jmpcs': jmpcs
+        }
+        if not os.path.exists(self.log_dir + '/results'):
+            os.mkdir(self.log_dir + '/results')
+
+        savemat(self.log_dir + '/results/a2c_results_{}.mat'.format(self.episodes), save_mat)
 
         with open(self.log_dir + '/train_logs.csv', 'a+', newline='') as write_obj:
             csv_writer = csv.writer(write_obj)
