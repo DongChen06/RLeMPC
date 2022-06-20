@@ -15,8 +15,9 @@ All the algorithms are revised for *discrete* action space via Categorical distr
 
 To run the algorithms, just run via: `train_sac.py` or `train_a2c.py` or `train_ppo.py`
 
-To visualize the training process, you can run:  `tensorboard --logdir runs`
-
+To visualize the training process, you can run:  `tensorboard --logdir runs`, for instance:
+<img src="https://user-images.githubusercontent.com/25771207/174673227-7f8fbaae-ddcb-437b-bd50-588f2de94ee8.png" width="700" height="500">
+<img src="https://user-images.githubusercontent.com/25771207/174673245-efeb39b5-2f6e-4350-be2e-8eecebb5f3fb.png" width="200" height="80">
 
 ## References
 The A2C, PPO, and SAC code are based on the following wonderful repos, please give the credits to
