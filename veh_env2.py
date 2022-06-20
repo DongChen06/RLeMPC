@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 30 11:29:33 2021
-
-@author: ocail
-"""
 
 import torch
 import numpy as np
@@ -241,8 +234,8 @@ if __name__ == "__main__":
     np.random.seed(seed)
     random.seed(seed)
 
-    if not os.path.exists('runs' + '/Veh/cloud'):
-        os.mkdir('runs' + '/Veh/cloud')
+    if not os.path.exists('runs' + '/Veh/'):
+        os.mkdir('runs' + '/Veh/')
 
     vehEnv = vehEnv()
     # test the cloud mpc
@@ -258,12 +251,12 @@ if __name__ == "__main__":
         cloud_all_u.append(np.array(u))
 
     print("Return for MPC:", cloud_return)
-    np.save('runs' + '/Veh/cloud/ob_history', cloud_obs)
-    np.save('runs' + '/Veh/cloud/actions', cloud_a)
-    np.save('runs' + '/Veh/cloud/numpy_u', cloud_all_u)
+    np.save('runs' + '/Veh/ob_history', cloud_obs)
+    np.save('runs' + '/Veh/actions', cloud_a)
+    np.save('runs' + '/Veh/numpy_u', cloud_all_u)
 
-    aaa = np.load('runs/Veh/cloud/numpy_u.npy')
-    uuu = np.load('runs/Veh/cloud/ob_history.npy')
+    aaa = np.load('runs/Veh/numpy_u.npy')
+    uuu = np.load('runs/Veh/ob_history.npy')
     plt.figure()
     plt.plot(uuu[:, 2], label='gt')
     plt.plot(4 * np.sin(2 * np.pi / 50 * np.array(uuu[:, 0])), label='pred')

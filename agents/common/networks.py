@@ -18,7 +18,7 @@ class MLP(nn.Module):
                  input_size, 
                  output_size, 
                  output_limit=1.0,
-                 hidden_sizes=(64,64), 
+                 hidden_sizes=(128,128),
                  activation=F.relu, 
                  output_activation=identity,
                  use_output_layer=True,

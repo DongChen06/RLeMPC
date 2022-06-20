@@ -18,7 +18,7 @@ class Agent(object):
                 steps=0,
                 gamma=0.99,
                 policy_lr=1e-4,
-                vf_lr=1e-3,
+                vf_lr=1e-4,
                 eval_mode=False,
                 policy_losses=list(),
                 vf_losses=list(),
@@ -101,6 +101,8 @@ class Agent(object):
 
       obs = self.env.reset()
       done = False
+      actions = []
+      self.policy.train()
 
       # Keep interacting until agent reaches a terminal state.
       while not (done or step_number == max_step):
@@ -126,6 +128,7 @@ class Agent(object):
             
             self.train_model()
 
+         actions.append(action)
          total_reward += reward
          step_number += 1
          obs = next_obs
@@ -133,4 +136,36 @@ class Agent(object):
       # Save total average losses
       self.logger['LossPi'] = round(np.mean(self.policy_losses), 5)
       self.logger['LossV'] = round(np.mean(self.vf_losses), 5)
-      return step_number, total_reward
+
+      return step_number, total_reward, sum(actions) / len(actions)
+
+   def test(self, max_step):
+      step_number = 0
+      total_reward = 0.
+      state = self.env.reset()
+      done = False
+
+      # save logs
+      x = [state[0]]
+      rl = [state[2]]  # rl output
+      gt = [4 * np.sin(2 * np.pi / 50 * state[0])]  # ground truth
+      act = []
+      jmpcs = []
+      self.policy.eval()
+      while not (done or step_number == max_step):
+         # _, pi, _ = self.policy(torch.Tensor(state).to(self.device))
+         # action = pi.argmax().detach().cpu().numpy()
+         action = self.select_action(torch.Tensor(state).to(self.device))
+         next_state, reward, done, (t, jmpc) = self.env.step(action)
+
+         total_reward += reward
+         step_number += 1
+         state = next_state
+
+         act.append(action)
+         x.append(next_state[0])
+         rl.append(next_state[2])
+         gt.append(4 * np.sin(2 * np.pi / 50 * next_state[0]))
+         jmpcs.append(jmpc)
+
+      return step_number, total_reward, (act, x, rl, gt, jmpcs)
